@@ -31,6 +31,35 @@
       <%= simple_format(@post.body) %>
     </div>
 
+    <div class="post-likes">
+
+  <% if user_signed_in? %>
+
+    <% if @post.likes.exists?(user: current_user) %>
+
+      <%= button_to "❤️ Unlike",
+            post_like_path(@post),
+            method: :delete,
+            class: "like-btn" %>
+
+    <% else %>
+
+      <%= button_to "🤍 Like",
+            post_like_path(@post),
+            method: :post,
+            class: "like-btn" %>
+
+    <% end %>
+
+  <% end %>
+
+  <span class="like-count">
+    ❤️ <%= @post.likes.count %>
+    <%= "Like".pluralize(@post.likes.count) %>
+  </span>
+
+</div>
+
   </article>
 
   <hr class="post-divider">
@@ -78,7 +107,9 @@
               rows: 4,
               placeholder: "Share your thoughts..." %>
 
-        <%= form.submit "Post Comment" %>
+        <div class="comment-submit">
+  <%= form.submit "Post Comment" %>
+</div>
 
       <% end %>
 
