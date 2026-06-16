@@ -1,74 +1,118 @@
-<p style="color: green"><%= notice %></p>
+<div class="post-show">
 
-<%= render @post %>
+  <% if notice.present? %>
+    <p class="notice"><%= notice %></p>
+  <% end %>
 
-<hr>
+  <% if @post.cover_image.attached? %>
+<div class="post-cover">
+  <%= image_tag @post.cover_image, class: "post-cover-image" %>
+</div>
+  <% end %>
 
-<h2>Comments</h2>
+  <article class="post-content">
 
-<% @post.comments.each do |comment| %>
-  <div class="comment">
+    <h1 class="post-heading">
+      <%= @post.title %>
+    </h1>
 
-    <strong>
-      <%= comment.user.username.presence || comment.user.email %>
-    </strong>
+    <div class="post-meta">
+      By
+      <%= link_to @post.user.username,
+            profile_path(@post.user),
+            class: "author-link" %>
 
-    <p>
-      <%= comment.body %>
-    </p>
+      •
 
-    <% if comment.user == current_user %>
-      <%= button_to "Delete",
-            post_comment_path(@post, comment),
-            method: :delete %>
+      <%= @post.created_at.strftime("%B %Y") %>
+    </div>
+
+    <div class="post-body">
+      <%= simple_format(@post.body) %>
+    </div>
+
+  </article>
+
+  <hr class="post-divider">
+
+  <section class="comments-section">
+
+    <h2>Comments</h2>
+
+    <% @post.comments.each do |comment| %>
+
+      <div class="comment-card">
+
+        <div class="comment-author">
+          <%= link_to comment.user.username,
+                profile_path(comment.user),
+                class: "author-link" %>
+        </div>
+
+        <p>
+          <%= comment.body %>
+        </p>
+
+        <% if comment.user == current_user %>
+          <%= button_to "Delete",
+                post_comment_path(@post, comment),
+                method: :delete,
+                class: "delete-btn" %>
+        <% end %>
+
+      </div>
+
     <% end %>
 
-  </div>
+  </section>
 
-  <br>
-<% end %>
+  <% if user_signed_in? %>
 
-<div>
-<% if user_signed_in? %>
+    <section class="comment-form">
 
-  <h3>Add a Comment</h3>
+      <h3>Add a Comment</h3>
 
-  <%= form_with model: [@post, Comment.new] do |form| %>
+      <%= form_with model: [@post, Comment.new] do |form| %>
 
-    <div>
-      <%= form.text_area :body,
-            rows: 4,
-            placeholder: "Write your thoughts..." %>
-    </div>
+        <%= form.text_area :body,
+              rows: 4,
+              placeholder: "Share your thoughts..." %>
 
-    <br>
+        <%= form.submit "Post Comment" %>
 
-    <div>
-      <%= form.submit "Post Comment" %>
-    </div>
+      <% end %>
+
+    </section>
+
+  <% else %>
+
+    <p>
+      Please
+      <%= link_to "log in", new_user_session_path %>
+      to comment.
+    </p>
 
   <% end %>
 
-<% else %>
+  <div class="post-actions">
 
-  <p>
-    Please <%= link_to "log in", new_user_session_path %>
-    to comment.
-  </p>
+    <% if @post.user == current_user %>
 
-<% end %>
+      <%= link_to "Edit Post",
+            edit_post_path(@post),
+            class: "read-link" %>
 
+      <%= button_to "Delete Post",
+            @post,
+            method: :delete,
+            class: "delete-btn" %>
 
-<div>
-<% if @post.user == current_user %>
+    <% end %>
 
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
+    <%= link_to "← Back to Posts",
+          posts_path,
+          class: "read-link" %>
 
-  <%= button_to "Destroy this post",
-        @post,
-        method: :delete %>
+  </div>
 
-<% end %>
-
-<%= link_to "Back to posts", posts_path %>
 </div>

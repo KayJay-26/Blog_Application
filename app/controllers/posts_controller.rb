@@ -68,7 +68,7 @@ before_action :authorize_user!, only: %i[ edit update destroy ]
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :body, :user_id ])
+      params.expect(post: [ :title, :body, :cover_image])
     end
     def authorize_user!
       redirect_to posts_path,
