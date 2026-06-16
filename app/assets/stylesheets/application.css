@@ -46,11 +46,11 @@ body {
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 340px;
+  min-height: 220px;
 }
 .hero-left {
   background: #111;
-  padding: 48px 40px;
+  padding: 36px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -103,24 +103,24 @@ body {
   position: absolute;
 }
 .blob1 {
-  width: 180px;
-  height: 220px;
+  width: 140px;
+  height: 180px;
   background: #e8c440;
   top: 30px;
   left: 40px;
   border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%;
 }
 .blob2 {
-  width: 140px;
-  height: 160px;
+  width: 110px;
+  height: 130px;
   background: #e84040;
   top: 60px;
   right: 50px;
   border-radius: 60% 40% 30% 70% / 40% 60% 50% 50%;
 }
 .blob3 {
-  width: 100px;
-  height: 120px;
+  width: 80px;
+  height: 90px;
   background: #222;
   bottom: 20px;
   right: 30px;
@@ -182,99 +182,92 @@ body {
 
 /* ── Experience Cards ── */
 .exp {
-  background: #111;
-  color: #fff;
-  padding: 64px 40px;
+  padding: 48px 40px 80px;
 }
+
 .exp-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
+
 .exp-header h2 {
-  font-size: 28px;
+  font-size: 42px;
   font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
 }
+
 .exp-header p {
-  font-size: 12px;
-  color: #666;
-  text-align: right;
-  max-width: 200px;
-  line-height: 1.5;
+  color: #888;
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 500px;
 }
 
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-.card {
-  border-radius: 8px;
-  overflow: hidden;
-}
-.card-img {
-  height: 160px;
-  position: relative;
   display: flex;
-  align-items: flex-end;
-  padding: 14px;
-}
-.card-img-1 {
-  background: linear-gradient(135deg, #e8405a 0%, #9b2cff 100%);
-}
-.card-img-2 {
-  background: linear-gradient(135deg, #2ca8e8 0%, #1d6b99 100%);
-}
-.card-img-3 {
-  background: linear-gradient(135deg, #e86040 0%, #c0392b 100%);
+  flex-wrap: wrap;
+  gap: 28px;
 }
 
-.card-num {
-  font-size: 11px;
-  font-weight: 700;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 3px 8px;
-  border-radius: 3px;
-  position: absolute;
-  top: 12px;
-  left: 12px;
+.card {
+  width: 360px;
+  background: #181818;
+  border: 1px solid #222;
+  border-radius: 24px;
+  padding: 28px;
+  transition: all 0.25s ease;
 }
-.card-label {
-  background: #fff;
-  color: #111;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 3px;
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #2d2d2d;
 }
+
 .card-body {
-  background: #1a1a1a;
-  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
-.card-body h3 {
-  font-size: 15px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-.card-body p {
-  font-size: 11px;
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: #888;
-  line-height: 1.6;
+  font-size: 13px;
+  font-weight: 500;
 }
-.card-foot {
-  background: #1a1a1a;
-  padding: 0 14px 14px;
-  border-top: 1px solid #2a2a2a;
+
+.author-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d4f13a;
+  flex-shrink: 0;
 }
-.card-btn {
-  background: transparent;
-  border: 1px solid #333;
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 3px;
-  font-size: 11px;
-  cursor: pointer;
+
+.post-title {
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.post-excerpt {
+  color: #8a8a8a;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.read-link {
+  color: #d4f13a;
+  text-decoration: none;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.read-link:hover {
+  opacity: 0.8;
 }
 
 /* ── Testimonial ── */
@@ -311,6 +304,20 @@ body {
 .testi-role {
   font-size: 11px;
   color: #555;
+}
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #888;
+  font-size: 12px;
+}
+
+.author-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d4f13a;
 }
 
 /* ── Footer ── */
