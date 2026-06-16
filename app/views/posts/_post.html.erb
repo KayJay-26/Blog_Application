@@ -9,9 +9,9 @@
     <%= post.body %>
   </div>
 
-  <div>
-    <strong>User:</strong>
-    <%= post.user_id %>
-  </div>
+<p>
+  <strong>Author:</strong>
+  <%= post.user.username.presence || post.user.email %>
+</p>
 
 </div>
