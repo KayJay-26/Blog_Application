@@ -1,5 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_post_and_comment, only: [:destroy]
+  before_action :authorize_comment!, only: [:destroy]
 
   def create
     @post = Post.find(params[:post_id])
@@ -15,18 +17,20 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
+  @comment.destroy
 
-    @comment = @post.comments.find(params[:id])
-
-    @comment.destroy
-
-    redirect_to @post, notice: "Comment deleted."
+  redirect_to @post, notice: "Comment deleted."
   end
 
   private
 
-  def comment_params
-    params.require(:comment).permit(:body)
+  def set_post_and_comment
+  @post = Post.find(params[:post_id])
+  @comment = @post.comments.find(params[:id])
+  end
+
+  def authorize_comment!
+  redirect_to @post,
+              alert: "Not authorized." unless @comment.user == current_user
   end
 end

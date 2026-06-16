@@ -29,6 +29,37 @@
 <% end %>
 
 <div>
+<% if user_signed_in? %>
+
+  <h3>Add a Comment</h3>
+
+  <%= form_with model: [@post, Comment.new] do |form| %>
+
+    <div>
+      <%= form.text_area :body,
+            rows: 4,
+            placeholder: "Write your thoughts..." %>
+    </div>
+
+    <br>
+
+    <div>
+      <%= form.submit "Post Comment" %>
+    </div>
+
+  <% end %>
+
+<% else %>
+
+  <p>
+    Please <%= link_to "log in", new_user_session_path %>
+    to comment.
+  </p>
+
+<% end %>
+
+
+<div>
 <% if @post.user == current_user %>
 
   <%= link_to "Edit this post", edit_post_path(@post) %> |
