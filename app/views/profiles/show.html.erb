@@ -1,0 +1,71 @@
+<div class="profile-container">
+
+  <div class="profile-header">
+    <h1>
+      <%= @user.username.presence || @user.email %>
+    </h1>
+
+    <p>
+      Member since
+      <%= @user.created_at.strftime("%B %Y") %>
+    </p>
+  </div>
+
+  <hr>
+
+  <h2>Posts</h2>
+
+  <% if @posts.any? %>
+
+    <% @posts.each do |post| %>
+
+      <div class="profile-post">
+
+        <h3>
+          <%= link_to post.title, post %>
+        </h3>
+
+        <p>
+          <%= truncate(post.body, length: 100) %>
+        </p>
+
+      </div>
+
+    <% end %>
+
+  <% else %>
+
+    <p>No posts yet.</p>
+
+  <% end %>
+
+  <hr>
+
+  <h2>Recent Comments</h2>
+
+  <% if @comments.any? %>
+
+    <% @comments.each do |comment| %>
+
+      <div class="profile-comment">
+
+        <p>
+          "<%= truncate(comment.body, length: 80) %>"
+        </p>
+
+        <small>
+          On:
+          <%= link_to comment.post.title, comment.post %>
+        </small>
+
+      </div>
+
+    <% end %>
+
+  <% else %>
+
+    <p>No comments yet.</p>
+
+  <% end %>
+
+</div>

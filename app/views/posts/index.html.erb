@@ -33,9 +33,12 @@
       <div class="card">
         <div class="card-body">
           <div class="author">
-            <span class="author-dot"></span>
-            <span><%= post.user.username %></span>
-          </div>
+  <span class="author-dot"></span>
+
+  <%= link_to post.user.username,
+        profile_path(post.user),
+        class: "author-link" %>
+</div>
 
           <h3 class="post-title">
             <%= truncate(post.title, length: 40) %>
