@@ -94,6 +94,10 @@
           <% end %>
 
           <div class="card-body">
+          <% if post.cover_image.attached? %>
+  <%= image_tag post.cover_image,
+      class: "card-image" %>
+<% end %>
             <div class="author">
               <span class="author-dot"></span>
               <%= link_to (post.user.username.presence || post.user.email),
