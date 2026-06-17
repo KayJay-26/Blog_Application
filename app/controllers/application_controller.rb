@@ -9,7 +9,14 @@ def env_check
   ].join(" | ")
 end
 def users_count
-  render plain: User.pluck(:email).join("\n")
+  User.where(confirmed_at: nil).destroy_all
+  render plain: "Deleted unconfirmed users"
+end
+def smtp_test
+  render plain: [
+    ENV["GMAIL_USERNAME"],
+    ENV["GMAIL_APP_PASSWORD"].present?
+  ].join(" | ")
 end
 
 

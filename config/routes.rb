@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
   get "/env_check", to: "application#env_check"
   get "/users_count", to: "application#users_count"
+  get "/smtp_test", to: "application#smtp_test"
 end
