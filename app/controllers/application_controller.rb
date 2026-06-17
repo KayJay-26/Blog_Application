@@ -8,6 +8,9 @@ def env_check
     ENV["GMAIL_APP_PASSWORD"].present?
   ].join(" | ")
 end
+def users_count
+  render plain: User.pluck(:email).join("\n")
+end
 
 
   protected
