@@ -1,71 +1,129 @@
-<div class="profile-container">
+<div class="profile-page">
 
-  <div class="profile-header">
-    <h1>
-      <%= @user.username.presence || @user.email %>
-    </h1>
+  <%# ── Profile Header ── %>
+  <div class="profile-hero">
+    <div class="profile-avatar">
+      <%= (@user.username.presence || @user.email)[0].upcase %>
+    </div>
 
-    <p>
-      Member since
-      <%= @user.created_at.strftime("%B %Y") %>
-    </p>
+    <div class="profile-hero-info">
+      <span class="hero-tag">PROFILE</span>
+      <h1 class="profile-name">
+        <%= @user.username.presence || @user.email %>
+      </h1>
+      <p class="profile-meta">
+        Member since <%= @user.created_at.strftime("%B %Y") %>
+        <span class="profile-meta-dot">·</span>
+        <%= @posts.size %> <%= "post".pluralize(@posts.size) %>
+        <span class="profile-meta-dot">·</span>
+        <%= @comments.size %> <%= "comment".pluralize(@comments.size) %>
+      </p>
+    </div>
+
+    <% if current_user == @user %>
+      <div class="profile-actions">
+        <%= link_to "✏️ Edit Profile", edit_user_registration_path, class: "hero-cta" %>
+        <%= link_to "✍️ New Post", new_post_path, class: "nav-btn" %>
+      </div>
+    <% end %>
   </div>
 
-  <hr>
+  <hr class="post-divider">
 
-  <h2>Posts</h2>
+  <%# ── Posts ── %>
+  <section class="profile-section">
+    <h2 class="profile-section-title">
+      Stories
+      <span class="comment-count-badge"><%= @posts.size %></span>
+    </h2>
 
-  <% if @posts.any? %>
+    <% if @posts.any? %>
+      <div class="profile-posts">
+        <% @posts.each do |post| %>
+          <div class="profile-post-card">
+            <% if post.cover_image.attached? %>
+              <%= link_to post do %>
+                <%= image_tag post.cover_image, class: "profile-post-cover" %>
+              <% end %>
+            <% end %>
 
-    <% @posts.each do |post| %>
+            <div class="profile-post-body">
+              <span class="profile-post-date">
+                <%= post.created_at.strftime("%b %d, %Y") %>
+              </span>
 
-      <div class="profile-post">
+              <h3 class="profile-post-title">
+                <%= link_to truncate(post.title, length: 60), post,
+                      style: "color: inherit; text-decoration: none;" %>
+              </h3>
 
-        <h3>
-          <%= link_to post.title, post %>
-        </h3>
+              <p class="profile-post-excerpt">
+                <%= truncate(post.body, length: 110) %>
+              </p>
 
-        <p>
-          <%= truncate(post.body, length: 100) %>
-        </p>
-
+              <div class="profile-post-footer">
+                <%= link_to "Read →", post, class: "read-link" %>
+                <span style="color: #444; font-size: 12px;">
+                  ❤️ <%= post.likes.count %>
+                  &nbsp;💬 <%= post.comments.count %>
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
-
-    <% end %>
-
-  <% else %>
-
-    <p>No posts yet.</p>
-
-  <% end %>
-
-  <hr>
-
-  <h2>Recent Comments</h2>
-
-  <% if @comments.any? %>
-
-    <% @comments.each do |comment| %>
-
-      <div class="profile-comment">
-
-        <p>
-          "<%= truncate(comment.body, length: 80) %>"
-        </p>
-
-        <small>
-          On:
-          <%= link_to comment.post.title, comment.post %>
-        </small>
-
+    <% else %>
+      <div class="empty-state">
+        <p class="empty-icon">✦</p>
+        <h3>No stories yet</h3>
+        <% if current_user == @user %>
+          <p>You haven't written anything yet.</p>
+          <%= link_to "Write your first post →", new_post_path,
+                class: "nav-btn", style: "margin-top: 20px; display: inline-block;" %>
+        <% else %>
+          <p>This writer hasn't posted anything yet.</p>
+        <% end %>
       </div>
-
     <% end %>
+  </section>
 
-  <% else %>
+  <hr class="post-divider">
 
-    <p>No comments yet.</p>
+  <%# ── Comments ── %>
+  <section class="profile-section">
+    <h2 class="profile-section-title">
+      Recent Comments
+      <span class="comment-count-badge"><%= @comments.size %></span>
+    </h2>
 
-  <% end %>
+    <% if @comments.any? %>
+      <div class="profile-comments">
+        <% @comments.each do |comment| %>
+          <div class="profile-comment-card">
+            <p class="profile-comment-body">
+              "<%= truncate(comment.body, length: 120) %>"
+            </p>
+            <div class="profile-comment-footer">
+              <span style="color: #444; font-size: 12px;">on</span>
+              <%= link_to truncate(comment.post.title, length: 50),
+                    comment.post,
+                    class: "profile-comment-post-link" %>
+              <span class="profile-comment-date">
+                <%= comment.created_at.strftime("%b %d, %Y") %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state" style="padding: 40px;">
+        <p class="empty-icon" style="font-size: 32px;">💬</p>
+        <h3>No comments yet</h3>
+        <% if current_user == @user %>
+          <p>Start engaging with other writers.</p>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
 
 </div>

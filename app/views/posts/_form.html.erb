@@ -1,8 +1,11 @@
 <%= form_with(model: post) do |form| %>
-  <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
+  <%# Error messages %>
+  <% if post.errors.any? %>
+    <div class="form-errors">
+      <p class="form-errors-title">
+        <%= pluralize(post.errors.count, "error") %> prevented this post from saving:
+      </p>
       <ul>
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -11,23 +14,49 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <%# Title %>
+  <div class="form-group">
+    <%= form.label :title, "Post Title", class: "form-label" %>
+    <%= form.text_field :title,
+          placeholder: "Give your post a great title...",
+          class: "form-input" %>
   </div>
 
+  <%# Cover Image %>
+  <div class="form-group">
+    <%= form.label :cover_image, "Cover Image", class: "form-label" %>
+    <div class="file-upload-area">
+      <%= form.file_field :cover_image, class: "file-input", accept: "image/*" %>
+      <div class="file-upload-label">
+        <span class="file-upload-icon">📷</span>
+        <span class="file-upload-text">Click to upload a cover image</span>
+        <span class="file-upload-hint">PNG, JPG, WEBP recommended</span>
+      </div>
+    </div>
 
-  <div>
-  <%= form.label :cover_image, style: "display: block" %>
-  <%= form.file_field :cover_image %>
-</div> 
+    <%# Show existing cover image when editing %>
+    <% if post.persisted? && post.cover_image.attached? %>
+      <div class="current-cover">
+        <p class="form-label" style="margin-bottom: 8px;">Current Cover</p>
+        <%= image_tag post.cover_image, class: "current-cover-img" %>
+      </div>
+    <% end %>
+  </div>
 
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.textarea :body %>
+  <%# Body %>
+  <div class="form-group">
+    <%= form.label :body, "Your Story", class: "form-label" %>
+    <%= form.textarea :body,
+          placeholder: "Write something worth reading...",
+          class: "form-textarea",
+          rows: 14 %>
   </div>
-  
-  <div>
-    <%= form.submit %>
+
+  <%# Submit %>
+  <div class="form-submit">
+    <%= form.submit post.persisted? ? "💾 Save Changes" : "🚀 Publish Post",
+          class: "form-submit-btn" %>
+    <%= link_to "Cancel", posts_path, class: "hero-cta", style: "margin-left: 12px;" %>
   </div>
+
 <% end %>

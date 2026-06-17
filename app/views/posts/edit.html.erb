@@ -1,12 +1,21 @@
-<% content_for :title, "Editing post" %>
+<% content_for :title, "Edit Post" %>
 
-<h1>Editing post</h1>
+<div class="post-form-page">
 
-<%= render "form", post: @post %>
+  <div class="post-form-header">
+    <span class="hero-tag">EDITING</span>
+    <h1 class="post-form-title">
+      Refine Your<br>
+      <span style="color: #d4f13a;">Story.</span>
+    </h1>
+    <p class="post-form-sub">Make it even better than before.</p>
+  </div>
 
-<br>
+  <%= render "form", post: @post %>
 
-<div>
-  <%= link_to "Show this post", @post %> |
-  <%= link_to "Back to posts", posts_path %>
+  <div class="post-form-back" style="display: flex; gap: 20px; margin-top: 32px;">
+    <%= link_to "← View Post", @post, class: "read-link" %>
+    <%= link_to "← All Posts", posts_path, class: "read-link" %>
+  </div>
+
 </div>

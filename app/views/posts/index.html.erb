@@ -12,45 +12,118 @@
       Share your thoughts, ideas, and stories with a community that values authentic perspectives.
     </p>
 
-    <%= link_to "Start Writing", new_post_path, class: "hero-cta" %>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <% if user_signed_in? %>
+        <%= link_to "✍️ Start Writing", new_post_path, class: "nav-btn" %>
+        <%= link_to "Explore Posts", "#latest", class: "hero-cta" %>
+      <% else %>
+        <%= link_to "Join BlogPulse", new_user_registration_path, class: "nav-btn" %>
+        <%= link_to "Explore Posts", "#latest", class: "hero-cta" %>
+      <% end %>
+    </div>
   </div>
 
   <div class="hero-right">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
     <div class="blob blob3"></div>
-  </div>
-</div>
 
-<section class="exp">
-  <div class="exp-header">
-    <h2><u>Latest Stories</u></h2>
-    <h3>Discover what the BlogPulse community is writing about.</h3>
-  </div>
-
-  <div class="cards">
-    <% @posts.each do |post| %>
-      <div class="card">
-        <div class="card-body">
-          <div class="author">
-  <span class="author-dot"></span>
-
-  <%= link_to post.user.username,
-        profile_path(post.user),
-        class: "author-link" %>
-</div>
-
-          <h3 class="post-title">
-            <%= truncate(post.title, length: 40) %>
-          </h3>
-
-          <p class="post-excerpt">
-            <%= truncate(post.body, length: 120) %>
-          </p>
-
-          <%= link_to "Read →", post, class: "read-link" %>
-        </div>
+    <%# Floating stats over the blob area %>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num"><%= @posts.size %>+</span>
+        <span class="hero-stat-label">Stories</span>
       </div>
-    <% end %>
+      <div class="hero-stat">
+        <span class="hero-stat-num">∞</span>
+        <span class="hero-stat-label">Ideas</span>
+      </div>
+    </div>
   </div>
+</div>
+
+<%# ── Why Us strip ── %>
+<div class="why">
+  <div class="why-left">
+    <h2>Why BlogPulse?</h2>
+    <p>A minimal, distraction-free space to share what you know, what you've experienced, and what you think the world should hear.</p>
+  </div>
+  <div class="why-right">
+    <div class="why-badge">
+      <div class="why-badge-icon wbi-yellow">✦</div>
+      <span>Write & publish in seconds</span>
+    </div>
+    <div class="why-badge">
+      <div class="why-badge-icon wbi-orange">♥</div>
+      <span>Like and comment on stories</span>
+    </div>
+    <div class="why-badge">
+      <div class="why-badge-icon wbi-dark">→</div>
+      <span>Discover writers you'll love</span>
+    </div>
+  </div>
+</div>
+
+<%# ── Latest Posts ── %>
+<section class="exp" id="latest">
+  <div class="exp-header">
+    <h2>Latest Stories</h2>
+    <p>Discover what the BlogPulse community is writing about.</p>
+  </div>
+
+  <% if @posts.empty? %>
+    <div class="empty-state">
+      <p class="empty-icon">✦</p>
+      <h3>No stories yet</h3>
+      <p>Be the first to share something.</p>
+      <% if user_signed_in? %>
+        <%= link_to "Write the first post →", new_post_path, class: "nav-btn", style: "margin-top: 20px; display: inline-block;" %>
+      <% else %>
+        <%= link_to "Join to start writing →", new_user_registration_path, class: "nav-btn", style: "margin-top: 20px; display: inline-block;" %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="cards">
+      <% @posts.each do |post| %>
+        <div class="card">
+          <%# Cover image if attached %>
+          <% if post.respond_to?(:cover_image) && post.cover_image.attached? %>
+            <%= link_to post do %>
+              <%= image_tag post.cover_image, class: "card-cover-img" %>
+            <% end %>
+          <% end %>
+
+          <div class="card-body">
+            <div class="author">
+              <span class="author-dot"></span>
+              <%= link_to (post.user.username.presence || post.user.email),
+                    profile_path(post.user),
+                    class: "author-link" %>
+              <span style="color: #444; margin-left: auto; font-size: 11px;">
+                <%= post.created_at.strftime("%b %d, %Y") %>
+              </span>
+            </div>
+
+            <h3 class="post-title">
+              <%= link_to truncate(post.title, length: 50), post, style: "color: inherit; text-decoration: none;" %>
+            </h3>
+
+            <p class="post-excerpt">
+              <%= truncate(post.body, length: 130) %>
+            </p>
+
+            <div class="card-footer">
+              <%= link_to "Read →", post, class: "read-link" %>
+
+              <% if post.respond_to?(:likes) %>
+                <span class="card-likes">
+                  ♥ <%= post.likes.count %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </section>

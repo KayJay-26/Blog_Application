@@ -1,31 +1,46 @@
 <div class="auth-container">
 
-<h1><u> Welcome Back! </u></h1>
+  <span class="hero-tag">WELCOME BACK</span>
 
-<h2>Log in</h2>
+  <h1 class="auth-title">Log<br><span style="color: #d4f13a;">In.</span></h1>
+  <p class="auth-sub">Good to see you again. Pick up where you left off.</p>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-  <div class="field">
-    <p><%= f.label :password %></p>
-    <p><%= f.password_field :password, autocomplete: "current-password" %></p>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
     <div class="field">
-      <p><%= f.check_box :remember_me %></p>
-      <%= f.label :remember_me %>
+      <%= f.label :email, "Email Address", class: "form-label" %>
+      <%= f.email_field :email,
+            autofocus: true,
+            autocomplete: "email",
+            placeholder: "you@example.com" %>
     </div>
+
+    <div class="field">
+      <%= f.label :password, "Password", class: "form-label" %>
+      <%= f.password_field :password,
+            autocomplete: "current-password",
+            placeholder: "••••••••" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="field auth-remember">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me, "Keep me signed in" %>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= f.submit "Log In →" %>
+    </div>
+
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
+  <div class="auth-divider">
+    <span>or</span>
   </div>
-<% end %>
 
-<%= render "devise/shared/links" %>
+  <div class="auth-links">
+    <%= render "devise/shared/links" %>
+  </div>
+
 </div>
