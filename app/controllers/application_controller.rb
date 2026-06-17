@@ -2,10 +2,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
 
-  def seed
-  load Rails.root.join("db/seeds.rb")
-  render plain: "Database seeded!"
-  end
+def env_check
+  render plain: [
+    ENV["GMAIL_USERNAME"].present?,
+    ENV["GMAIL_APP_PASSWORD"].present?
+  ].join(" | ")
+end
 
 
   protected

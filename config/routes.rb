@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   get "/profiles/:id", to: "profiles#show", as: :profile
 
   get "up" => "rails/health#show", as: :rails_health_check
-  get "/seed", to: "application#seed"
+  get "/env_check", to: "application#env_check"
 end
