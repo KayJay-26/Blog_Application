@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get "/env_check", to: "application#env_check"
   get "/users_count", to: "application#users_count"
   get "/smtp_test", to: "application#smtp_test"
+  get "/mail_test", to: "application#mail_test"
 end

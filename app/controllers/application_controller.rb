@@ -18,6 +18,12 @@ def smtp_test
     ENV["GMAIL_APP_PASSWORD"].present?
   ].join(" | ")
 end
+# application_controller.rb
+
+def mail_test
+  UserMailer.test_email.deliver_now
+  render plain: "sent"
+end
 
 
   protected
