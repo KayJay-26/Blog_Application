@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
 
     mail(
       to: user.email,
-      subject: "Welcome to BlogPulse!"
+      subject: Constants::WELCOME_EMAIL_SUBJECT
     )
   end
 end
