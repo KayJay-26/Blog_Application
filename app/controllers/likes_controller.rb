@@ -12,7 +12,7 @@ class LikesController < ApplicationController
   def destroy
     @post = Post.find(params[:post_id])
 
-    @like = @post.likes.find_by(user: current_user)
+    @like = @post.likes.find(user: current_user)
 
     @like.destroy if @like
 
