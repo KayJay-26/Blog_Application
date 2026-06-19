@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   User.where(confirmed_at: nil).destroy_all
   render plain: "Deleted unconfirmed users"
   end
+  def cleanup_users
+  User.destroy_all
+  render plain: "All users deleted"
+  end
 
 
   protected
