@@ -5,7 +5,6 @@ class CommentsController < ApplicationController
 
   def create
     @post = Post.find(params[:post_id])
-
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
@@ -18,7 +17,6 @@ class CommentsController < ApplicationController
 
   def destroy
   @comment.destroy
-
   redirect_to @post, notice: "Comment deleted."
   end
 
