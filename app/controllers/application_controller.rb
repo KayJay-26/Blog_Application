@@ -1,29 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-
-def env_check
-  render plain: [
-    ENV["GMAIL_USERNAME"].present?,
-    ENV["GMAIL_APP_PASSWORD"].present?
-  ].join(" | ")
-end
-def users_count
+  def users_count
   User.where(confirmed_at: nil).destroy_all
   render plain: "Deleted unconfirmed users"
-end
-def smtp_test
-  render plain: [
-    ENV["GMAIL_USERNAME"],
-    ENV["GMAIL_APP_PASSWORD"].present?
-  ].join(" | ")
-end
-# application_controller.rb
-
-def mail_test
-  UserMailer.test_email.deliver_now
-  render plain: "sent"
-end
+  end
 
 
   protected
